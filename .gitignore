@@ -1,5 +1,5 @@
-/spect_save/*.png
-
+/spect_save/
+/extracted/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
