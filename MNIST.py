@@ -40,10 +40,10 @@ G = Generator(g_input_dim = z_dim, g_output_dim = mnist_dim).to(device)
 D = Discriminator(mnist_dim).to(device)
 
 # loss
-criterion = nn.BCELoss() 
+criterion = nn.BCELoss()
 
 # optimizer
-lr = 0.0002 
+lr = 0.0002
 G_optimizer = optim.Adam(G.parameters(), lr = lr)
 D_optimizer = optim.Adam(D.parameters(), lr = lr)
 
@@ -71,7 +71,7 @@ def D_train(x):
     D_loss = D_real_loss + D_fake_loss
     D_loss.backward()
     D_optimizer.step()
-        
+
     return  D_loss.data.item()
 
 def G_train(x):
@@ -88,22 +88,22 @@ def G_train(x):
     # gradient backprop & optimize ONLY G's parameters
     G_loss.backward()
     G_optimizer.step()
-        
+
     return G_loss.data.item()
 
-# n_epoch = 100
-# for epoch in range(1, n_epoch+1):           
-#     D_losses, G_losses = [], []
-#     for batch_idx, (x, _) in enumerate(train_loader):
-#         D_losses.append(D_train(x))
-#         G_losses.append(G_train(x))
+n_epoch = 100
+for epoch in range(1, n_epoch+1):
+    D_losses, G_losses = [], []
+    for batch_idx, (x, _) in enumerate(train_loader):
+        D_losses.append(D_train(x))
+        G_losses.append(G_train(x))
 
-#     print('[%d/%d]: loss_d: %.3f, loss_g: %.3f' % (
-#             (epoch), n_epoch, torch.mean(torch.FloatTensor(D_losses)), torch.mean(torch.FloatTensor(G_losses))))
-    
-# Save the tained models
-# torch.save(G.state_dict(), 'model_saved/generator_model.pth')
-# torch.save(D.state_dict(), 'model_saved/discriminator_model.pth')
+    print('[%d/%d]: loss_d: %.3f, loss_g: %.3f' % (
+             (epoch), n_epoch, torch.mean(torch.FloatTensor(D_losses)), torch.mean(torch.FloatTensor(G_losses))))
+
+# Save the tained models
+torch.save(G.state_dict(), 'model_saved/generator_model.pth')
+torch.save(D.state_dict(), 'model_saved/discriminator_model.pth')
 
 # Load the trained models
 G = Generator(g_input_dim=z_dim, g_output_dim=mnist_dim).to(device)
